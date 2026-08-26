@@ -17,6 +17,9 @@
         <org.slf4j.version>2.0.18</org.slf4j.version>
         <ch.qos.logback.version>1.6.3</ch.qos.logback.version>
         <logback.color>true</logback.color>
+        <com.zaxxer.hikari.version>7.1.0</com.zaxxer.hikari.version>
+        <org.flywaydb.version>13.3.0</org.flywaydb.version>
+        <org.mariadb.jdbc.version>3.5.10</org.mariadb.jdbc.version>
     </properties>
     <dependencies>
         <!-- Tomcat embebido, incluye Coyote, Catalina y JULI -->
@@ -36,12 +39,36 @@
             <version>${org.slf4j.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Implementación de SLF4J -->
-        <!-- Quita slf4j-simple y añade Logback -->
+        <!-- Logback: implementación de SLF4J -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${ch.qos.logback.version}</version>
+        </dependency>
+
+        <!-- HikariCP: pool de conexiones JDBC -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${com.zaxxer.hikari.version}</version>
+        </dependency>
+        <!-- Flyway: gestión de migraciones de base de datos -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${org.flywaydb.version}</version>
+        </dependency>
+        <!-- Flyway MySQL: soporte para migraciones en MySQL -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>${org.flywaydb.version}</version>
+        </dependency>
+        <!-- MariaDB JDBC Driver -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${org.mariadb.jdbc.version}</version>
         </dependency>
     </dependencies>
 
@@ -52,12 +79,6 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>${org.codehaus.mojo.exec-maven-plugin.version}</version>
                 <configuration>
-                    <!--<executable>java</executable>
-                    <arguments>
-                        <argument>-classpath</argument>
-                        <classpath/>
-                        <argument>es.cesguiro.daw.framework.App</argument>
-                    </arguments>-->
                     <mainClass>es.cesguiro.daw.framework.App</mainClass>
                 </configuration>
             </plugin>

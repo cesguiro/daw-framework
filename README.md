@@ -21,6 +21,7 @@ El proyecto evoluciona de forma incremental mediante etiquetas de Git (**Tags**)
 |:-----------------------| :--- |
 | `v0.1-embedded-tomcat` | Servidor Tomcat embebido básico con `FrontController` y sistema de logs con Logback. |
 | `v0.2-property-util`   | Añadida la clase de utilidad `PropertyUtil` para la lectura de pares clave-valor desde `application.properties`. |
+| `v0.3-data-infrastructure` | Infraestructura de BD con `AppServletContextListener`, pool HikariCP, migraciones con Flyway (MariaDB) y esquemas iniciales de `users` y `roles`. |
 ---
 
 ## 🔀 Cómo navegar entre versiones con Git
