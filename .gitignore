@@ -1,0 +1,28 @@
+# Compilación y archivos generados
+target/
+*.class
+*.jar
+*.war
+
+# Logs
+logs/
+*.log
+
+# Archivos de entorno de IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Archivos de otros IDEs (por si acaso)
+.vscode/
+.settings/
+.project
+.classpath
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos temporales de trabajo de Tomcat Embebido
+tomcat.*/
