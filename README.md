@@ -17,10 +17,10 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 
 El proyecto evoluciona de forma incremental mediante etiquetas de Git (**Tags**). Cada tag representa una fase funcional completa:
 
-| Versión | Descripción / Componentes introducidos |
-| :--- | :--- |
+| Versión                | Descripción / Componentes introducidos |
+|:-----------------------| :--- |
 | `v0.1-embedded-tomcat` | Servidor Tomcat embebido básico con `FrontController` y sistema de logs con Logback. |
-
+| `v0.2-property-util`   | Añadida la clase de utilidad `PropertyUtil` para la lectura de pares clave-valor desde `application.properties`. |
 ---
 
 ## 🔀 Cómo navegar entre versiones con Git

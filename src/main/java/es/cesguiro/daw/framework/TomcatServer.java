@@ -14,27 +14,20 @@ public class TomcatServer {
 
     public TomcatServer() {
         this.tomcat = new Tomcat();
-        //configurar puerto
-        this.tomcat.setPort(8080);
-        // inicializar el conector Coyote (HTTP) en el puerto configurado
-        // El método getConnector() comprueba si ya existe un conector asignado.
-        // Si no existe, instancia automáticamente el conector HTTP predeterminado de Coyote,
-        // le asigna el puerto configurado y lo añade al servidor
+
+        this.tomcat.setPort(PropertyUtil.getInt("server.port", 8080));
         this.tomcat.getConnector();
 
-        // Equivalente:
-        // Connector connector = new Connector();
-        // connector.setPort(8080)
-        // this.tomcat.setConnector(connector)
-
-        // Crear el contexto raiz de Catalina
         String docBase = new File(".").getAbsolutePath();
-        // El primer parámetro es la URL base que tendrá la aplicación en el navegador
-        // El segundo parámetro es la ubicación física en el disco duro donde se guardan los archivos webs estáticos
-        Context context = this.tomcat.addContext("", docBase);
-        //Context context = this.tomcat.addContext("/api/v1", docBase);
 
-        //Registrar el servlet FrontController
+        String contextPath = PropertyUtil.get("server.context-path", "");
+
+        if ("/".equals(contextPath)) {
+            contextPath = "";
+        }
+
+        Context context = this.tomcat.addContext(contextPath, docBase);
+
         Tomcat.addServlet(context, "FrontController", new FrontController());
         context.addServletMapping("/*", "FrontController");
 
