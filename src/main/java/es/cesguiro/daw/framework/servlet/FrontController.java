@@ -1,4 +1,4 @@
-package es.cesguiro.daw.framework;
+package es.cesguiro.daw.framework.servlet;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,5 +1,7 @@
-package es.cesguiro.daw.framework;
+package es.cesguiro.daw.framework.server;
 
+import es.cesguiro.daw.framework.servlet.FrontController;
+import es.cesguiro.daw.framework.util.PropertyUtil;
 import org.apache.catalina.Context;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.startup.Tomcat;
@@ -36,7 +38,7 @@ public class TomcatServer {
         Tomcat.addServlet(context, "FrontController", new FrontController());
         context.addServletMapping("/*", "FrontController");
 
-        context.addApplicationListener("es.cesguiro.daw.framework.AppServletContextListener");
+        context.addApplicationListener("es.cesguiro.daw.framework.listener.AppServletContextListener");
 
     }
 

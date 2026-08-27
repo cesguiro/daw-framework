@@ -1,4 +1,4 @@
-package es.cesguiro.daw.framework;
+package es.cesguiro.daw.framework.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
