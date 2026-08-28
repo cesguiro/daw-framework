@@ -1,5 +1,6 @@
 package es.cesguiro.daw.framework.server;
 
+import es.cesguiro.daw.framework.listener.AppServletContextListener;
 import es.cesguiro.daw.framework.servlet.FrontController;
 import es.cesguiro.daw.framework.util.PropertyUtil;
 import org.apache.catalina.Context;
@@ -19,27 +20,22 @@ public class TomcatServer {
 
     public TomcatServer() {
         this.tomcat = new Tomcat();
-
         this.tomcat.setPort(PropertyUtil.getInt("server.port", 8080));
         this.tomcat.getConnector();
 
         String docBase = new File(".").getAbsolutePath();
-
         String contextPath = PropertyUtil.get("server.context-path", "");
-
         if ("/".equals(contextPath)) {
             contextPath = "";
         }
 
         Context context = this.tomcat.addContext(contextPath, docBase);
+        context.addApplicationListener(AppServletContextListener.class.getName());
 
         configureClasspath(context);
 
-        Tomcat.addServlet(context, "FrontController", new FrontController());
+        Tomcat.addServlet(context, "FrontController", FrontController.class.getName());
         context.addServletMapping("/*", "FrontController");
-
-        context.addApplicationListener("es.cesguiro.daw.framework.listener.AppServletContextListener");
-
     }
 
     /**

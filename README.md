@@ -24,7 +24,11 @@ El proyecto evoluciona de forma incremental mediante etiquetas de Git (**Tags**)
 | `v0.3-data-infrastructure` | Infraestructura de BD con `AppServletContextListener`, pool HikariCP, migraciones con Flyway (MariaDB) y esquemas iniciales de `users` y `roles`. |
 | `v0.3.1-app-context` | Introducción del contenedor de Beans IoC (`AppContext`) y refactorización de la infraestructura. |
 | `v0.4.0-http-wrappers` | Introducción de los wrappers `Request` y `Response` para desacoplar los controladores de la API de Jakarta Servlets. |
+| `v0.5.0-manual-router` | Registro manual de rutas explícito con `RouteKey`, `RouteHandler`, `Router` y `AppRoutes`. |
 ---
+
+### 📌 Notas de Refactorización y Correcciones (v0.5.0)
+* **Fix (TomcatServer):** Se corrigió la inicialización del `FrontController` en Tomcat Embebido. En lugar de pasar una instancia manual (`new FrontController()`), ahora se pasa el nombre de la clase (`FrontController.class.getName()`). Esto garantiza que Tomcat utilice el `WebappClassLoader` correcto para instanciar el servlet, resolviendo el problema de aislamiento de memoria donde el `AppContext` no compartía los beans (como el `Router`) registrados por el `AppServletContextListener`.
 
 ## 🔀 Cómo navegar entre versiones con Git
 

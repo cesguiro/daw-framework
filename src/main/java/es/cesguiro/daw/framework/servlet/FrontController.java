@@ -1,8 +1,11 @@
 package es.cesguiro.daw.framework.servlet;
 
+import es.cesguiro.daw.framework.context.AppContext;
 import es.cesguiro.daw.framework.controller.UserController;
 import es.cesguiro.daw.framework.http.Request;
 import es.cesguiro.daw.framework.http.Response;
+import es.cesguiro.daw.framework.routing.RouteHandler;
+import es.cesguiro.daw.framework.routing.Router;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,49 +19,74 @@ import java.util.Map;
 public class FrontController extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(FrontController.class);
-    private UserController userController;
+    private Router router;
+
 
     @Override
-    public void init() throws ServletException {
-        this.userController = new UserController();
+    public void init(){
+        router = AppContext.getInstance().getBean(Router.class);
     }
 
     @Override
-    protected void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Request request = new Request(req);
 
-        Request request = new Request(httpServletRequest);
+        // 1. Resolver y ejecutar la ruta
+        Response response = processRequest(request);
 
-        /*logger.info("FrontController: Request - Method: {}, Path: {}", request.getMethod(), request.getPath());
-        Map<String, String> headers = request.getHeaders();
-        for (String headerName : headers.keySet()) {
-            logger.info("FrontController: Request - Header: {} = {}", headerName, request.getHeader(headerName));
-        }
-        Map<String, String[]> queryParams = request.getQueryParams();
-        for (String paramName : queryParams.keySet()) {
-            logger.info("FrontController: Request - Query Param: {} = {}", paramName, request.getQueryParam(paramName));
-        }*/
+        // 2. Enviar la respuesta a Tomcat
+        sendResponse(response, resp);
+    }
 
-        Response response;
+    /**
+     * Busca la ruta registrada y ejecuta su handler.
+     * Si no existe devuelve 404, y si ocurre un fallo devuelve 500.
+     */
+    private Response processRequest(Request request) {
+        RouteHandler handler = router.resolve(request);
 
-
-        String path = request.getPath();
-
-        if("/api/users".equals(path)) {
-            response = userController.findAll(request);
-        } else if("/api/users/detail".equals(path)) {
-            response = userController.findById(request);
-        } else {
-            response = Response.notFound();
+        if (handler == null) {
+            return Response.notFound();
         }
 
-        httpServletResponse.setStatus(response.getStatus());
-        response.getHeaders().forEach(httpServletResponse::setHeader);
+        try {
+            return handler.handle(request);
+        } catch (Exception e) {
+            logger.error("Error procesando petición", e);
+            return new Response(500, "{\"error\": \"Internal Server Error\"}");
+        }
+    }
 
+    private Router getRouter() {
+        if (router == null) {
+            router = AppContext.getInstance().getBean(Router.class);
+        }
+        return router;
+    }
+
+    /**
+     * Vuelca la información de nuestro objeto Response al HttpServletResponse de Jakarta.
+     */
+    private void sendResponse(Response response, HttpServletResponse resp) throws IOException {
+        // 1. Código de estado HTTP
+        resp.setStatus(response.getStatus());
+
+        // 2. Cabeceras HTTP
+        response.getHeaders().forEach(resp::setHeader);
+
+        // 3. Cuerpo de la respuesta
         if (response.getBody() != null) {
-            if (httpServletResponse.getContentType() == null) {
-                httpServletResponse.setContentType("application/json");
-            }
-            httpServletResponse.getWriter().write(response.getBody().toString());
+            writeResponseBody(response.getBody(), resp);
         }
+    }
+
+    /**
+     * Escribe el body asignando un Content-Type por defecto si no se definió uno.
+     */
+    private void writeResponseBody(Object body, HttpServletResponse resp) throws IOException {
+        if (resp.getContentType() == null) {
+            resp.setContentType("application/json; charset=UTF-8");
+        }
+        resp.getWriter().write(body.toString());
     }
 }
