@@ -16,15 +16,14 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.1.4-front-controller</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.1.4-user-controller</b> <i>(Versión actual)</i></summary>
 
 ### Añadido
-* Capa de dominio inicial con entidades `User` y `Role` con soporte de relaciones N:M y métodos `toString()`.
-* Capa de controlador con `UserController` que expone datos hardcodeados (`findAll`, `findById`).
-* Servlet `FrontController` en `core.servlet` actuando como único punto de entrada HTTP y distribuyendo la petición según la URI.
+* Entidades de dominio `User` y `Role` con relaciones y formato de salida en texto (`toString()`).
+* Controlador `UserController` con datos *hardcodeados* (`findAll` y `findById`).
 
 ### Modificado
-* `TomcatServer` configura la resolución de clases mediante `StandardRoot` y mapea `FrontController` a `/*`.
+* `FrontController` extiende su lógica para enrutar las peticiones `/api/users` y `/api/users/detail` invocando a `UserController`.
 
 </details>
 
