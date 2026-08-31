@@ -16,7 +16,20 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.1.8-app-context</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.1.9-router</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Sistema de enrutado funcional en `routing` con las clases `RouteHandler`, `RouteKey` y `Router` (sintaxis fluida estilo Laravel).
+* Clase de definición de rutas de usuario `ApiRoutes` fuera del núcleo del framework.
+
+### Modificado
+* `AppInitializer` registra las rutas mediante `ApiRoutes.configure()` y guarda la instancia de `Router` en el `AppContext`.
+* `FrontController` se vuelve 100% agnóstico a las rutas de la aplicación; resuelve el `RouteHandler` correspondiente desde el `Router` y ejecuta la petición.
+
+</details>
+
+<details>
+<summary><b>v0.1.8-app-context</b></summary>
 
 ### Añadido
 * Contenedor de Inyección de Dependencias `AppContext` (Singleton con `ConcurrentHashMap`) en `core.context`.

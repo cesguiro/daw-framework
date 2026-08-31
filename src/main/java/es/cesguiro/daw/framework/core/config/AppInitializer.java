@@ -2,6 +2,8 @@ package es.cesguiro.daw.framework.core.config;
 
 import es.cesguiro.daw.framework.controller.UserController;
 import es.cesguiro.daw.framework.core.AppContext;
+import es.cesguiro.daw.framework.core.routing.Router;
+import es.cesguiro.daw.framework.routes.ApiRoutes;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
@@ -17,6 +19,10 @@ public class AppInitializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        AppContext.getInstance().register(UserController.class, new UserController());
+        AppContext appContext = AppContext.getInstance();
+
+        appContext.register(UserController.class, new UserController());
+        Router router = ApiRoutes.configure();
+        appContext.register(Router.class, router);
     }
 }
