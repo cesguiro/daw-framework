@@ -16,7 +16,19 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.1.2-properties</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.1.3-front-controller</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Servlet centralizado `FrontController` en `core.web` que captura todas las peticiones a través del método `service()`.
+
+### Modificado
+* Configuración de `TomcatServer` para mapear el `FrontController` a la ruta `/*`.
+* Incorporación del método `configureClasspath(Context)` en `TomcatServer` utilizando `StandardRoot` y `DirResourceSet` para que Tomcat resuelva dinámicamente el `ClassLoader` desde `target/classes`.
+
+</details>
+
+<details>
+<summary><b>v0.1.2-properties</b></summary>
 
 ### Añadido
 * Archivo de configuración `application.properties` en `src/main/resources`.
