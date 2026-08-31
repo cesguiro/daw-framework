@@ -10,4 +10,6 @@ public interface UserDao {
     List<UserEntity> findAll();
 
     Optional<UserEntity> findById(long id);
+
+    public UserEntity create(UserEntity userEntity);
 }

@@ -16,7 +16,21 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.2.2-dao-repository-entities</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.2.3-transactions</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* `TransactionManager` estático basado en `ThreadLocal<Connection>` para vincular transacciones JDBC al hilo de la petición HTTP.
+* Inicialización del gestor de transacciones en `AppInitializer` (`TransactionManager.init(dataSource)`).
+* Método `save(User user)` en `UserRepositoryImpl` con soporte completo para transacciones ACID (`beginTransaction`, `commit`, `rollback`).
+* Método `saveUserRole(userId, roleId)` en `RoleDaoImpl` para inserciones compuestas en la tabla pivot `user_roles`.
+
+### Modificado
+* `UserDaoImpl` y `RoleDaoImpl` solicitan la conexión a través de `TransactionManager.getConnection()`, garantizando la reutilización de conexiones dentro de un bloque transaccional.
+
+</details>
+
+<details>
+<summary><b>v0.2.2-dao-repository-entities</b></summary>
 
 ### Añadido
 * Capa de persistencia con entidades de base de datos (`UserEntity`, `RoleEntity`).

@@ -12,4 +12,12 @@ public class UserRepositoryMapper {
         user.setPassword(userEntity.getPassword());
         return user;
     }
+
+    public static UserEntity toUserEntity(User user) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(user.getId());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setPassword(user.getPassword());
+        return userEntity;
+    }
 }

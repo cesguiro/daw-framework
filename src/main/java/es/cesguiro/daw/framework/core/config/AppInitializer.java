@@ -3,6 +3,7 @@ package es.cesguiro.daw.framework.core.config;
 import es.cesguiro.daw.framework.config.AppConfig;
 import es.cesguiro.daw.framework.controller.UserController;
 import es.cesguiro.daw.framework.core.AppContext;
+import es.cesguiro.daw.framework.core.db.TransactionManager;
 import es.cesguiro.daw.framework.core.routing.Router;
 import es.cesguiro.daw.framework.routes.ApiRoutes;
 import jakarta.servlet.ServletContextEvent;
@@ -25,6 +26,7 @@ public class AppInitializer implements ServletContextListener {
         AppContext appContext = AppContext.getInstance();
         DataSource dataSource = DataSourceManager.initialize();
         appContext.register(DataSource.class, dataSource);
+        TransactionManager.init(dataSource);
 
         DatabaseMigrator.migrate(dataSource);
 
@@ -33,5 +35,10 @@ public class AppInitializer implements ServletContextListener {
 
         Router router = ApiRoutes.configure();
         appContext.register(Router.class, router);
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        DataSourceManager.close();
     }
 }

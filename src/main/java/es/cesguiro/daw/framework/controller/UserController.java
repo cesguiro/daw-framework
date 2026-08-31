@@ -26,7 +26,6 @@ public class UserController {
 
     public Response create(User user) {
         // Lógica para crear un nuevo usuario
-        IO.println("Creando usuario: " + user);
-        return Response.created(user);
+        return Response.created(userService.save(user));
     }
 }
