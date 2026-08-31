@@ -2,6 +2,7 @@ package es.cesguiro.daw.framework.core.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.cesguiro.daw.framework.controller.UserController;
+import es.cesguiro.daw.framework.core.AppContext;
 import es.cesguiro.daw.framework.core.exception.GlobalExceptionHandler;
 import es.cesguiro.daw.framework.core.exception.ResourceNotFoundException;
 import es.cesguiro.daw.framework.core.http.Request;
@@ -19,7 +20,7 @@ public class FrontController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.userController = new UserController();
+        this.userController = AppContext.getInstance().getBean(UserController.class);
         this.objectMapper = new ObjectMapper();
         this.exceptionHandler = new GlobalExceptionHandler();
     }

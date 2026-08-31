@@ -16,7 +16,20 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.1.7-http-wrappers</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.1.8-app-context</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Contenedor de Inyección de Dependencias `AppContext` (Singleton con `ConcurrentHashMap`) en `core.context`.
+* Listener del ciclo de vida `AppInitializer` (`ServletContextListener`) para registrar los beans en el arranque del servidor.
+
+### Modificado
+* `TomcatServer` registra `AppInitializer` como listener del contexto web.
+* `FrontController` obtiene `UserController` desde `AppContext` durante la fase de `init()`.
+
+</details>
+
+<details>
+<summary><b>v0.1.7-http-wrappers</b></summary>
 
 ### Añadido
 * Wrappers `Request` y `Response` en `es.cesguiro.daw.framework.http`.

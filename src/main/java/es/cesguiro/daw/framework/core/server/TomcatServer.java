@@ -1,5 +1,6 @@
 package es.cesguiro.daw.framework.core.server;
 
+import es.cesguiro.daw.framework.core.config.AppInitializer;
 import es.cesguiro.daw.framework.core.servlet.FrontController;
 import es.cesguiro.daw.framework.core.util.PropertyUtil;
 import org.apache.catalina.Context;
@@ -31,6 +32,7 @@ public class TomcatServer {
         Context context = tomcat.addContext(contextPath, docBase);
 
         configureClasspath(context);
+        context.addApplicationListener(AppInitializer.class.getName());
         Tomcat.addServlet(context, "FrontController", FrontController.class.getName());
         context.addServletMapping("/*", "FrontController");
     }
