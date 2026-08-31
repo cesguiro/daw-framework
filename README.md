@@ -16,7 +16,20 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.1.4-user-controller</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.1.5-jackson-json</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Dependencia `jackson-databind` (2.17.1) en `pom.xml` para soporte de serialización JSON.
+* Formateo de respuestas de error (400, 404) en formato JSON estructurado.
+
+### Modificado
+* `FrontController` utiliza `ObjectMapper` para convertir POJOs a cadenas JSON.
+* Cabeceras de respuesta HTTP cambiadas de `text/plain` a `application/json;charset=UTF-8`.
+
+</details>
+
+<details>
+<summary><b>v0.1.4-user-controller</b></summary>
 
 ### Añadido
 * Entidades de dominio `User` y `Role` con relaciones y formato de salida en texto (`toString()`).

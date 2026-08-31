@@ -1,5 +1,6 @@
 package es.cesguiro.daw.framework.core.servlet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import es.cesguiro.daw.framework.controller.UserController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -14,10 +15,12 @@ public class FrontController extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(FrontController.class);
     private UserController userController;
+    private ObjectMapper objectMapper;
 
     @Override
     public void init() throws ServletException {
-        userController = new UserController();
+        this.userController = new UserController();
+        this.objectMapper = new ObjectMapper();
     }
 
     @Override
@@ -25,35 +28,46 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
-        logger.info("Procesando petición: {} {}", request.getMethod(), requestURI);
+        logger.info("Procesando petición HTTP: {} {}", request.getMethod(), requestURI);
 
         if ("/api/users".equals(requestURI)) {
-            sendResponse(response, HttpServletResponse.SC_OK, userController.findAll().toString());
+            String jsonResponseBody = objectMapper.writeValueAsString(userController.findAll());
+            sendJsonResponse(response, HttpServletResponse.SC_OK, jsonResponseBody);
+
         } else if ("/api/users/detail".equals(requestURI)) {
             String idParam = request.getParameter("id");
             if (idParam != null) {
                 try {
                     long id = Long.parseLong(idParam);
-                    sendResponse(response, HttpServletResponse.SC_OK, userController.findById(id).toString());
+                    Object user = userController.findById(id);
+                    if (user != null) {
+                        String jsonResponseBody = objectMapper.writeValueAsString(user);
+                        sendJsonResponse(response, HttpServletResponse.SC_OK, jsonResponseBody);
+                    } else {
+                        sendJsonResponse(response, HttpServletResponse.SC_NOT_FOUND,
+                                "{\"error\": \"Usuario no encontrado\"}");
+                    }
                 } catch (NumberFormatException e) {
-                    sendResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Invalid ID format: " + idParam);
+                    sendJsonResponse(response, HttpServletResponse.SC_BAD_REQUEST,
+                            "{\"error\": \"El formato del parámetro 'id' debe ser numérico\"}");
                 }
             } else {
-                sendResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Missing required parameter 'id'");
+                sendJsonResponse(response, HttpServletResponse.SC_BAD_REQUEST,
+                        "{\"error\": \"El parámetro 'id' es obligatorio\"}");
             }
         } else {
-            sendResponse(response, HttpServletResponse.SC_NOT_FOUND, "Path not found: " + requestURI);
+            sendJsonResponse(response, HttpServletResponse.SC_NOT_FOUND,
+                    "{\"error\": \"Path no encontrado: " + requestURI + "\"}");
         }
     }
 
-    private void sendResponse(HttpServletResponse response, int status, String responseBody) {
+    private void sendJsonResponse(HttpServletResponse response, int status, String jsonResponseBody) {
         response.setStatus(status);
-        response.setContentType("text/plain;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         try {
-            response.getWriter().write(responseBody);
+            response.getWriter().write(jsonResponseBody);
         } catch (IOException e) {
-            logger.error("Error writing response: {}", e.getMessage(), e);
+            logger.error("Error al escribir la respuesta JSON: {}", e.getMessage(), e);
         }
     }
-
 }

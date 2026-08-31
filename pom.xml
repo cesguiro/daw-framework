@@ -16,6 +16,7 @@
         <org.apache.tomcat.version>11.0.25</org.apache.tomcat.version>
         <org.slf4j.version>2.0.18</org.slf4j.version>
         <ch.qos.logback.version>1.6.3</ch.qos.logback.version>
+        <com.fasterxml.jackson.core.version>2.22.2</com.fasterxml.jackson.core.version>
     </properties>
     <dependencies>
     <!-- Tomcat embebido, incluye Coyote, Catalina y JULI -->
@@ -40,6 +41,12 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${ch.qos.logback.version}</version>
+        </dependency>
+        <!-- Jackson: biblioteca para el manejo de JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${com.fasterxml.jackson.core.version}</version>
         </dependency>
     </dependencies>
     <build>
