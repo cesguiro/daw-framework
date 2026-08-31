@@ -1,5 +1,6 @@
 package es.cesguiro.daw.framework.core.config;
 
+import es.cesguiro.daw.framework.config.AppConfig;
 import es.cesguiro.daw.framework.controller.UserController;
 import es.cesguiro.daw.framework.core.AppContext;
 import es.cesguiro.daw.framework.core.routing.Router;
@@ -27,7 +28,9 @@ public class AppInitializer implements ServletContextListener {
 
         DatabaseMigrator.migrate(dataSource);
 
-        appContext.register(UserController.class, new UserController());
+        // appContext.register(UserController.class, new UserController());
+        AppConfig.configure();
+
         Router router = ApiRoutes.configure();
         appContext.register(Router.class, router);
     }

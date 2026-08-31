@@ -16,7 +16,23 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.2.1-flyway-db</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.2.2-dao-repository-entities</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Capa de persistencia con entidades de base de datos (`UserEntity`, `RoleEntity`).
+* Mappers de acceso a datos (`UserDaoMapper`, `RoleDaoMapper`) para transformar filas de `ResultSet` en entidades.
+* Mappers de dominio (`UserRepositoryMapper`, `RoleRepositoryMapper`) para transformar entidades de persistencia a modelos de dominio (`User`, `Role`).
+* Implementación de acceso a datos con JDBC puro (`UserDaoImpl`, `RoleDaoImpl`) con soporte para lecturas totales (`findAll`) e individuales (`findById`).
+* Implementación de `UserRepositoryImpl` orquestando la carga de relaciones $N:M$ (roles por usuario) envolviendo búsquedas en `Optional`.
+* Configuración explícita del contenedor IoC en `AppConfig`.
+
+### Modificado
+* `AppInitializer` delega la configuración de dependencias a `AppConfig.configure()`.
+
+</details>
+
+<details>
+<summary><b>v0.2.1-flyway-db</b></summary>
 
 ### Añadido
 * Gestión del pool de conexiones JDBC mediante HikariCP en `DataSourceManager`.
