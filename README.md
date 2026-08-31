@@ -16,6 +16,13 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
+<summary><b>v0.1.0-embedded-tomcat</b> <i>(Versión actual)</i></summary>
+
+### Added
+* Estructura base del proyecto Maven con Java 25+.
+* Incorporación de la dependencia `tomcat-embed-core`.
+* Infraestructura en `core.server.TomcatServer` para inicializar y arrancar Tomcat Embebido en el puerto 8080.
+* Punto de entrada principal en `App.java`.
 </details>
 
 ## 🔀 Cómo navegar entre versiones con Git
