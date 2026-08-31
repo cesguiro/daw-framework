@@ -16,7 +16,20 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.1.5-jackson-json</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.1.6-exception-handler</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Excepción base `CustomException` en `core.exception` con soporte para códigos de estado HTTP (`httpStatus`).
+* Excepciones de dominio especializadas como `ResourceNotFoundException`.
+* Manejador global `GlobalExceptionHandler` para interceptar cualquier `Throwable` y transformarlo en una respuesta JSON estandarizada (`{"status": 404, "error": "..."}`).
+
+### Modificado
+* `FrontController` simplifica su método `service()` utilizando un bloque `try-catch` global que delega todo el tratamiento de errores al `GlobalExceptionHandler`.
+
+</details>
+
+<details>
+<summary><b>v0.1.5-jackson-json</b></summary>
 
 ### Añadido
 * Dependencia `jackson-databind` (2.17.1) en `pom.xml` para soporte de serialización JSON.
