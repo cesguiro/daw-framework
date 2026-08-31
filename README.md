@@ -16,7 +16,19 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.1.1-logging</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.1.2-properties</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Archivo de configuración `application.properties` en `src/main/resources`.
+* Clase de utilidad `PropertyUtil` en el paquete `core.util` (o `core.config`) para la lectura dinámica de propiedades mediante `Properties` / `ClassLoader`.
+
+### Modificado
+* `TomcatServer` ahora lee el puerto de escucha dinámicamente desde `application.properties` en lugar de tenerlo hardcodeado.
+
+</details>
+
+<details>
+<summary><b>v0.1.1-logging</b></summary>
 
 ### Añadido
 * Dependencias de Logging (SLF4J + implementación como Logback) en `pom.xml`.
@@ -27,7 +39,7 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 
 </details>
 <details>
-<summary><b>v0.1.0-embedded-tomcat</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.1.0-embedded-tomcat</b></summary>
 
 ### Añadido
 * Estructura base del proyecto Maven con Java 25+.
