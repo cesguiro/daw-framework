@@ -7,6 +7,8 @@ import es.cesguiro.daw.framework.routes.ApiRoutes;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
+import javax.sql.DataSource;
+
 /**
  * Escuchador del ciclo de vida de la aplicación Servlet.
  * <p>
@@ -20,6 +22,10 @@ public class AppInitializer implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         AppContext appContext = AppContext.getInstance();
+        DataSource dataSource = DataSourceManager.initialize();
+        appContext.register(DataSource.class, dataSource);
+
+        DatabaseMigrator.migrate(dataSource);
 
         appContext.register(UserController.class, new UserController());
         Router router = ApiRoutes.configure();

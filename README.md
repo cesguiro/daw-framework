@@ -16,7 +16,21 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.2.0-request-body-json</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.2.1-flyway-db</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Gestión del pool de conexiones JDBC mediante HikariCP en `DataSourceManager`.
+* Migraciones automáticas con Flyway en `DatabaseMigrator` con limpieza condicional controlada por `flyway.clean-disabled`.
+* Script de migración inicial `V1__create_tables.sql` con tablas (`users`, `roles`, `user_roles`) y datos iniciales en MariaDB.
+* Registro del bean `DataSource` dentro del contenedor IoC (`AppContext`).
+
+### Modificado
+* `AppInitializer` gestiona el ciclo de vida de la base de datos (arranque y migración en `contextInitialized`, cierre del pool en `contextDestroyed`).
+
+</details>
+
+<details>
+<summary><b>v0.2.0-request-body-json</b></summary>
 
 ### Añadido
 * Método genérico `<T> T getBodyAs(Class<T> clazz)` en la clase `Request` para deserializar el cuerpo JSON de peticiones `POST` y `PUT` utilizando Jackson.
