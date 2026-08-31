@@ -1,10 +1,13 @@
 package es.cesguiro.daw.framework.core.server;
 
 import org.apache.catalina.startup.Tomcat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TomcatServer {
 
     private final Tomcat tomcat;
+    private final Logger logger = LoggerFactory.getLogger(TomcatServer.class);
 
     public TomcatServer() {
         tomcat = new Tomcat();
@@ -14,12 +17,12 @@ public class TomcatServer {
 
     public void start(){
         try {
-            IO.println("Arrancando el servidor Tomcat en el puerto 8080...");
+            logger.info("Arrancando el servidor Tomcat en el puerto 8080...");
             tomcat.start();
-            IO.println("Servidor Tomcat arrancado correctamente.");
+            logger.info("Servidor Tomcat arrancado correctamente.");
             tomcat.getServer().await();
         } catch (Exception e) {
-            IO.println("Error al arrancar el servidor Tomcat: " + e.getMessage());
+            logger.error("Error al arrancar el servidor Tomcat: " + e.getMessage());
         }
     }
 }

@@ -16,6 +16,17 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
+<summary><b>v0.1.1-logging</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Dependencias de Logging (SLF4J + implementación como Logback) en `pom.xml`.
+* Archivo de configuración de logs (`logback.xml`).
+
+### Modificado
+* Sustituidos todos los `System.out.println` y `e.printStackTrace()` de `TomcatServer` y `App` por instancias de `Logger` (`logger.info()`, `logger.error()`).
+
+</details>
+<details>
 <summary><b>v0.1.0-embedded-tomcat</b> <i>(Versión actual)</i></summary>
 
 ### Añadido
