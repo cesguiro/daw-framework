@@ -18,7 +18,7 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 <details open>
 <summary><b>v0.1.0-embedded-tomcat</b> <i>(Versión actual)</i></summary>
 
-### Added
+### Añadido
 * Estructura base del proyecto Maven con Java 25+.
 * Incorporación de la dependencia `tomcat-embed-core`.
 * Infraestructura en `core.server.TomcatServer` para inicializar y arrancar Tomcat Embebido en el puerto 8080.
