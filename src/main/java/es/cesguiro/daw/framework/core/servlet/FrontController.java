@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import es.cesguiro.daw.framework.controller.UserController;
 import es.cesguiro.daw.framework.core.exception.GlobalExceptionHandler;
 import es.cesguiro.daw.framework.core.exception.ResourceNotFoundException;
+import es.cesguiro.daw.framework.core.http.Request;
+import es.cesguiro.daw.framework.core.http.Response;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
 
 public class FrontController extends HttpServlet {
 
@@ -25,42 +25,41 @@ public class FrontController extends HttpServlet {
     }
 
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) {
-
+    protected void service(HttpServletRequest rawRequest, HttpServletResponse rawResponse) {
         try {
-            dispatch(request, response);
+            Request request = new Request(rawRequest);
+            Response response = dispatch(request);
+            sendJsonResponse(rawResponse, response);
         } catch (Exception e) {
-            exceptionHandler.handle(e, response);
+            exceptionHandler.handle(e, rawResponse);
         }
     }
 
-    private void dispatch(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        String requestURI = httpServletRequest.getRequestURI();
+    private Response dispatch(Request request) throws Exception {
+        String requestURI = request.getPath();
 
-        if ("/api/users".equals(requestURI)) {
-            String jsonResponseBody = objectMapper.writeValueAsString(userController.findAll());
-            sendJsonResponse(httpServletResponse,jsonResponseBody);
-
-        } else if ("/api/users/detail".equals(requestURI)) {
-            String idParam = httpServletRequest.getParameter("id");
+        if ("/users".equals(requestURI)) {
+            return userController.findAll();
+        } else if ("/users/detail".equals(requestURI)) {
+            String idParam = request.getQueryParam("id");
             if (idParam == null || idParam.isEmpty()) {
                 throw new IllegalArgumentException("El parámetro 'id' es obligatorio");
             }
             long id = Long.parseLong(idParam);
-            Object user = userController.findById(id);
-            if (user == null) {
-                throw new ResourceNotFoundException("Usuario con id " + id + " no encontrado");
-            }
-            String jsonResponseBody = objectMapper.writeValueAsString(user);
-            sendJsonResponse(httpServletResponse, jsonResponseBody);
+            return userController.findById(id);
         } else {
             throw new ResourceNotFoundException("Path no encontrado: " + requestURI);
         }
     }
 
-    private void sendJsonResponse(HttpServletResponse httpServletResponse, String jsonResponseBody) throws Exception {
-        httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
-        httpServletResponse.getWriter().write(jsonResponseBody);
+    private void sendJsonResponse(HttpServletResponse rawResponse, Response response) throws Exception {
+        rawResponse.setStatus(response.getStatus());
+        rawResponse.setContentType("application/json;charset=UTF-8");
+        response.getHeaders().forEach(rawResponse::addHeader);
+
+        if(response.getBody() != null) {
+            String jsonResponseBody = objectMapper.writeValueAsString(response.getBody());
+            rawResponse.getWriter().write(jsonResponseBody);
+        }
     }
 }

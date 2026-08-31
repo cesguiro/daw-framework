@@ -1,5 +1,7 @@
 package es.cesguiro.daw.framework.controller;
 
+import es.cesguiro.daw.framework.core.exception.ResourceNotFoundException;
+import es.cesguiro.daw.framework.core.http.Response;
 import es.cesguiro.daw.framework.domain.model.Role;
 import es.cesguiro.daw.framework.domain.model.User;
 
@@ -14,14 +16,18 @@ public class UserController {
             new User(2L, "user1@example.com", "password1", List.of(userRole))
     );
 
-    public List<User> findAll(){
-        return users;
+    public Response findAll(){
+        return Response.ok(users);
     }
 
-    public User findById(long id) {
-        return users.stream()
-                .filter(user -> user.getId() == id)
+    public Response findById(long id) {
+        User user = users.stream()
+                .filter(u -> u.getId() == id)
                 .findFirst()
                 .orElse(null);
+        if (user == null) {
+            throw new ResourceNotFoundException("Usuario con id " + id + " no encontrado");
+        }
+        return Response.ok(user);
     }
 }

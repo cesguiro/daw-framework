@@ -16,7 +16,21 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.1.6-exception-handler</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.1.7-http-wrappers</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Wrappers `Request` y `Response` en `es.cesguiro.daw.framework.http`.
+* `Request` abstrae la petición extrayendo la ruta limpia (sin `contextPath`), las cabeceras y los parámetros de consulta.
+* `Response` incluye métodos factoría estáticos (`Response.ok(...)`, etc.) para gestionar el código HTTP, cabeceras y cuerpo de la respuesta.
+
+### Modificado
+* `UserController` devuelve objetos `Response` e independiza sus métodos de los objetos Servlet.
+* `FrontController` coordina la conversión de `HttpServletRequest` a `Request`, la ejecución de rutas y el envío de `Response` como JSON.
+
+</details>
+
+<details>
+<summary><b>v0.1.6-exception-handler</b></summary>
 
 ### Añadido
 * Excepción base `CustomException` en `core.exception` con soporte para códigos de estado HTTP (`httpStatus`).
