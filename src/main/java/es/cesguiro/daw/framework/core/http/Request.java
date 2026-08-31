@@ -1,13 +1,17 @@
 package es.cesguiro.daw.framework.core.http;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Request {
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private final String method;
     private final String path;
@@ -42,6 +46,22 @@ public class Request {
         }
 
         return Collections.unmodifiableMap(map);
+    }
+
+    /**
+     * Lee el cuerpo de la petición HTTP y lo deserializa al objeto del tipo especificado.
+     *
+     * @param clazz Clase a la que se desea mapear el JSON del body.
+     * @param <T>   Tipo del objeto resultante.
+     * @return Instancia del objeto deserializado.
+     * @throws RuntimeException si ocurre un error durante la lectura o deserialización.
+     */
+    public <T> T getBodyAs(Class<T> clazz) {
+        try {
+            return OBJECT_MAPPER.readValue(rawRequest.getInputStream(), clazz);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Error al procesar el cuerpo JSON de la petición: " + e.getMessage(), e);
+        }
     }
 
     public String getMethod() {

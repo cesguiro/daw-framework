@@ -30,4 +30,10 @@ public class UserController {
         }
         return Response.ok(user);
     }
+
+    public Response create(User user) {
+        // Lógica para crear un nuevo usuario
+        IO.println("Creando usuario: " + user);
+        return Response.created(user);
+    }
 }

@@ -9,6 +9,10 @@ public class User {
     private String password;
     private List<Role> roles;
 
+    // CONSTRUCTOR VACÍO (Requerido por Jackson para deserializar JSON)
+    public User() {
+    }
+
     public User(long id, String email, String password, List<Role> roles) {
         this.email = email;
         this.id = id;

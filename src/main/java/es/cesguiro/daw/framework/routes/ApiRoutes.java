@@ -3,6 +3,7 @@ package es.cesguiro.daw.framework.routes;
 import es.cesguiro.daw.framework.controller.UserController;
 import es.cesguiro.daw.framework.core.AppContext;
 import es.cesguiro.daw.framework.core.routing.Router;
+import es.cesguiro.daw.framework.domain.model.User;
 
 public class ApiRoutes {
 
@@ -18,6 +19,10 @@ public class ApiRoutes {
                     }
                     long id = Long.parseLong(idParam);
                     return userController.findById(id);
+                })
+                .post("/users", request -> {
+                    User user = request.getBodyAs(User.class);
+                    return userController.create(user);
                 });
 
         return router;

@@ -16,7 +16,20 @@ El objetivo principal es entender *"qué hay debajo del capó"* de frameworks mo
 ## 📋 Historial de versiones (Changelog)
 
 <details open>
-<summary><b>v0.1.9-router</b> <i>(Versión actual)</i></summary>
+<summary><b>v0.2.0-request-body-json</b> <i>(Versión actual)</i></summary>
+
+### Añadido
+* Método genérico `<T> T getBodyAs(Class<T> clazz)` en la clase `Request` para deserializar el cuerpo JSON de peticiones `POST` y `PUT` utilizando Jackson.
+* Soporte para respuestas HTTP `201 Created` mediante la invocación a `Response.created(...)`.
+* Definición de la ruta `POST /users` en `ApiRoutes`.
+
+> ⚠️ **Nota pedagógica sobre Jackson:**  
+> Las clases de dominio o DTOs que se deseen deserializar desde un cuerpo JSON (como `User` o `Role`) **deben disponer de un constructor por defecto (sin parámetros)** y sus correspondientes métodos *setter*. Jackson utiliza este constructor para instanciar el objeto mediante reflexión antes de poblar sus atributos.
+
+</details>
+
+<details>
+<summary><b>v0.1.9-router</b></summary>
 
 ### Añadido
 * Sistema de enrutado funcional en `routing` con las clases `RouteHandler`, `RouteKey` y `Router` (sintaxis fluida estilo Laravel).

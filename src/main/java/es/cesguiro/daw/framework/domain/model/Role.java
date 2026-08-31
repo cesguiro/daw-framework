@@ -5,6 +5,10 @@ public class Role {
     private long id;
     private String name;
 
+    // CONSTRUCTOR VACÍO (Requerido por Jackson)
+    public Role() {
+    }
+
     public Role(long id, String name) {
         this.id = id;
         this.name = name;
